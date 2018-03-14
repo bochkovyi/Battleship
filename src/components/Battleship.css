@@ -1,0 +1,11 @@
+.game-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.game-board, .game-status {
+    margin: 5px;
+    width: 550px;
+    border: 1px solid black;
+}
