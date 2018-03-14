@@ -4,6 +4,13 @@
     height: 50px;
     display: inline-block;
     box-sizing: border-box;
-    background: rgba(0,0,0, 0.1);
     margin: 0;
+}
+
+.cell-item.free {
+    background: rgba(0,0,0, 0.1);
+}
+
+.cell-item.taken {
+    background: rgba(0,0,0, 0.5);
 }

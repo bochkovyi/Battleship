@@ -4,7 +4,7 @@
     justify-content: center;
 }
 
-.game-board, .game-status {
+.game-board-container, .game-status-container {
     margin: 5px;
     width: 550px;
     border: 1px solid black;
