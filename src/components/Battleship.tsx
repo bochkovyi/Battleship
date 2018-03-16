@@ -3,17 +3,30 @@ import { Grid } from './grid/grid';
 import { Status } from './status/status';
 import './Battleship.css';
 
-class Battleship extends React.Component {
+export interface GameState {
+  gameStarted: boolean;
+}
+
+class Battleship extends React.Component<{}, GameState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      gameStarted: false
+    };
+  }
+
+  startGame = () => this.setState({gameStarted: true});
+  
   render() {
     return (
       <div className="game-container">
         <div className="game-board-container">
         game-board
-        <Grid />
+        <Grid gameStarted={this.state.gameStarted}/>
         </div>
         <div className="game-status-container">
         game-status
-        <Status />
+        <Status clickHandler={this.startGame} gameStarted={this.state.gameStarted}/>
         </div>
       </div>
     );

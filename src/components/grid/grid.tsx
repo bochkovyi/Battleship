@@ -7,7 +7,11 @@ export interface BoardState {
   grid: CellData[];
 }
 
-export class Grid extends React.Component<object, BoardState> {
+export interface Props {
+  gameStarted: boolean;
+}
+
+export class Grid extends React.Component<Props, BoardState> {
   boardSize = 10;
 
   freshBoard() {
@@ -37,7 +41,7 @@ export class Grid extends React.Component<object, BoardState> {
   handleClick = (key: number) => {
     this.setState(state => {
       const temp = [...state.grid];
-      if (temp[key].state === SHIP_HIDDEN) {
+      if (this.props.gameStarted && temp[key].state === SHIP_HIDDEN) {
         if (temp[key].ship) {
           temp[key].state = SHIP_HIT;
         } else {
@@ -61,5 +65,11 @@ export class Grid extends React.Component<object, BoardState> {
 
   componentWillMount() {
     this.newGame();
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    if (nextProps.gameStarted) {
+      this.newGame();
+    }
   }
 }
