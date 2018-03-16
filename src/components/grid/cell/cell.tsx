@@ -1,12 +1,23 @@
 
 import * as React from 'react';
 import './cell.css';
+import { Ship } from '../../common/Ship';
 
 export interface Props {
     clickHandler: Function;
     id: number;
-    value: number;
+    cellData: CellData;
 }
+
+export interface CellData {
+    state: number;
+    ship: Ship;
+}
+
+export const SHIP_HIDDEN = 0;
+export const SHIP_MISSED = 1;
+export const SHIP_HIT = 2;
+
 /*
 export function Cell({ clickHandler, id }: Props) {
   function handleClick (e: any) {
@@ -24,7 +35,23 @@ export class Cell extends React.Component<Props, {}> {
         this.props.clickHandler(this.props.id);
     }
     render() {
-        let classNameValue = 'cell-item ' + ((this.props.value === 0) ? 'free' : 'taken');
+        let classNameValue = 'cell-item';
+        switch (this.props.cellData.state) {
+            case SHIP_HIDDEN:
+            classNameValue = `${classNameValue} hidden`;
+            break;
+
+            case SHIP_MISSED:
+            classNameValue = `${classNameValue} missed`;
+            break;
+
+            case SHIP_HIT:
+            classNameValue = `${classNameValue} hit`;
+            break;
+
+            default:
+        }
+
         return (
             <div className={classNameValue} data-test={this.props.id} onClick={this.handleClick} />
         );

@@ -1,24 +1,49 @@
 import * as React from 'react';
-import { Cell } from './cell/cell';
+import { Cell, CellData, SHIP_HIDDEN, SHIP_MISSED, SHIP_HIT } from './cell/cell';
 import { Ship } from '../common/Ship';
 import './grid.css';
 
 export interface BoardState {
-  grid: number[];
+  grid: CellData[];
 }
 
 export class Grid extends React.Component<object, BoardState> {
   boardSize = 10;
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      grid: new Array(this.boardSize * this.boardSize).fill(0)
-    };
+
+  freshBoard() {
+    let temp = new Array(this.boardSize * this.boardSize).fill(null);
+    temp = temp.map(item => ({state: SHIP_HIDDEN, ship: null}));
+    return temp;
   }
+
+  newGame() {
+    this.setState(state => {
+      console.log('State before init', state);
+      let temp = this.freshBoard();
+
+      let ship = new Ship(10, 5, true);
+      temp[0].ship = ship;
+      temp[10].ship = ship;
+      temp[20].ship = ship;
+      temp[21].ship = ship;
+      temp[22].ship = ship;
+      console.log(temp);
+      return {
+        grid: temp
+      };
+    });
+  }
+  
   handleClick = (key: number) => {
     this.setState(state => {
       const temp = [...state.grid];
-      temp[key] = 1;
+      if (temp[key].state === SHIP_HIDDEN) {
+        if (temp[key].ship) {
+          temp[key].state = SHIP_HIT;
+        } else {
+          temp[key].state = SHIP_MISSED;
+        }
+      }
       return {
         grid: temp
       };
@@ -27,15 +52,14 @@ export class Grid extends React.Component<object, BoardState> {
   render() {
     return (
       <div className="grid">
-        {this.state.grid.map((item, key) => 
-            <Cell clickHandler={this.handleClick} key={key} id={key} value={item}/>
+        {this.state.grid.map((item: CellData, key: number) => 
+            <Cell clickHandler={this.handleClick} key={key} id={key} cellData={item}/>
         )}
       </div>
     );
   }
 
   componentWillMount() {
-    console.log('Mounting', new Ship(10, 180, true));
-    
+    this.newGame();
   }
 }

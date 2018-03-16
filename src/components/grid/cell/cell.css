@@ -7,10 +7,14 @@
     margin: 0;
 }
 
-.cell-item.free {
+.cell-item.hidden {
     background: rgba(0,0,0, 0.1);
 }
 
-.cell-item.taken {
+.cell-item.missed {
     background: rgba(0,0,0, 0.5);
+}
+
+.cell-item.hit {
+    background: rgba(255, 0 ,0, 1);
 }
