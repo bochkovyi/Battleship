@@ -16,5 +16,9 @@
 }
 
 .cell-item.hit {
-    background: rgba(255, 0 ,0, 1);
+    background: red;
+}
+
+.cell-item.sunk {
+    outline: 5px solid blue;
 }

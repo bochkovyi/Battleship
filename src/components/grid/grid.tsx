@@ -1,37 +1,35 @@
 import * as React from 'react';
-import { Cell, CellData, SHIP_HIDDEN, SHIP_MISSED, SHIP_HIT } from './cell/cell';
+import { Cell, CellData, SHIP_HIDDEN, SHIP_MISSED, SHIP_HIT, SHIP_SUNK } from './Cell/Cell';
 import { Ship } from '../common/Ship';
-import './grid.css';
+import './Grid.css';
 
 export interface BoardState {
   grid: CellData[];
 }
 
 export interface Props {
+  gameOver: boolean;
   gameStarted: boolean;
+  boardUntoched: boolean;
+  boardSize: number;
+  ships: Ship[];
+  clickHandler: Function;
 }
 
 export class Grid extends React.Component<Props, BoardState> {
-  boardSize = 10;
 
   freshBoard() {
-    let temp = new Array(this.boardSize * this.boardSize).fill(null);
+    let temp = new Array(this.props.boardSize ** 2).fill(null);
     temp = temp.map(item => ({state: SHIP_HIDDEN, ship: null}));
     return temp;
   }
 
   newGame() {
-    this.setState(state => {
-      console.log('State before init', state);
+    this.setState((state, props) => {
       let temp = this.freshBoard();
-
-      let ship = new Ship(10, 5, true);
-      temp[0].ship = ship;
-      temp[10].ship = ship;
-      temp[20].ship = ship;
-      temp[21].ship = ship;
-      temp[22].ship = ship;
-      console.log(temp);
+      if (props.gameStarted && props.boardUntoched) {
+        props.ships.forEach(item => item.placeShip(temp));
+      }
       return {
         grid: temp
       };
@@ -41,11 +39,27 @@ export class Grid extends React.Component<Props, BoardState> {
   handleClick = (key: number) => {
     this.setState(state => {
       const temp = [...state.grid];
-      if (this.props.gameStarted && temp[key].state === SHIP_HIDDEN) {
+      if (!this.props.gameStarted || this.props.gameOver) {
+        return console.log('Please start the game first!');
+      }
+      // this.props.ships.map(item => console.log(item.getPath()));
+      
+      // Do something only if cell is not touched
+      if (temp[key].state === SHIP_HIDDEN) {
+        // If clicked on gidden ship
         if (temp[key].ship) {
           temp[key].state = SHIP_HIT;
+          temp[key].ship.hit();
+          const isSunk = temp[key].ship.isSunk();
+          // If this hit has sunk the ship
+          if (isSunk) {
+            const shipPath = temp[key].ship.getPath();
+            shipPath.forEach(item => temp[item].state = SHIP_SUNK);
+          }
+          this.props.clickHandler(true);
         } else {
           temp[key].state = SHIP_MISSED;
+          this.props.clickHandler(false);
         }
       }
       return {
@@ -68,7 +82,8 @@ export class Grid extends React.Component<Props, BoardState> {
   }
 
   componentWillReceiveProps(nextProps: any) {
-    if (nextProps.gameStarted) {
+    // Restart game only when props relate to status button action
+    if (nextProps.gameStarted && nextProps.boardUntoched) {
       this.newGame();
     }
   }

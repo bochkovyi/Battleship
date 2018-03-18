@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import './cell.css';
+import './Cell.css';
 import { Ship } from '../../common/Ship';
 
 export interface Props {
@@ -17,6 +17,7 @@ export interface CellData {
 export const SHIP_HIDDEN = 0;
 export const SHIP_MISSED = 1;
 export const SHIP_HIT = 2;
+export const SHIP_SUNK = 3;
 
 /*
 export function Cell({ clickHandler, id }: Props) {
@@ -31,7 +32,7 @@ export function Cell({ clickHandler, id }: Props) {
 
 export class Cell extends React.Component<Props, {}> {
     handleClick = (e: any) => {
-        console.log(e.target, e.target.dataset.test);
+        // console.log(e.target, e.target.dataset.test);
         this.props.clickHandler(this.props.id);
     }
     render() {
@@ -47,6 +48,10 @@ export class Cell extends React.Component<Props, {}> {
 
             case SHIP_HIT:
             classNameValue = `${classNameValue} hit`;
+            break;
+
+            case SHIP_SUNK:
+            classNameValue = `${classNameValue} hit sunk`;
             break;
 
             default:

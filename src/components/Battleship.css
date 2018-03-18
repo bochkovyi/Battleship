@@ -4,8 +4,19 @@
     justify-content: center;
 }
 
+@media (max-width: 820px) {
+    .game-container {
+        flex-direction: column;
+    }
+    .game-status-container {
+        order: 1;
+    }
+    .game-board-container {
+        order: 2;
+    }
+}
+
 .game-board-container, .game-status-container {
     margin: 5px;
     width: 550px;
-    border: 1px solid black;
 }

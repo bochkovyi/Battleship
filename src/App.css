@@ -1,3 +1,9 @@
+.App-description {
+  text-align: left;
+  padding: 20px 20%;
+  font-size: 1.2rem;
+}
+
 .App {
   text-align: center;
 }
@@ -7,9 +13,19 @@
   height: 60px;
   padding: 10px;
   color: white;
-  margin-bottom: 50px;
 }
 
 .App-title {
   font-size: 1.5em;
+}
+
+.footer {
+  text-align: left;
+  padding: 30px 50px;
+  line-height: 0.5rem;
+  
+}
+
+.footer a {
+  color: black;
 }
