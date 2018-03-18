@@ -9,8 +9,9 @@ const boardProps: BoardProps = {
     boardUntoched: true,
     boardSize: 10,
     ships: [new Ship(10, 5, true)],
-    clickHandler: (e) => console.log(e)
-}
+    clickHandler: (e: any) => console.log(e)
+};
+
 it('renders Board with a Ship without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<Grid {...boardProps}/>, div);
