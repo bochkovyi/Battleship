@@ -29,7 +29,7 @@ class App extends React.Component {
         </ul>
         <Battleship />
         <footer className="footer">
-          <p>Made by Bogdan Bochkovvyi.</p>
+          <p>Made by Bogdan Bochkovyi.</p>
           <p>Source code can be found&nbsp;
             <a href={gitHubLink} target="blank" rel="nofollow noopener">here</a>.</p>
           <p>Web fonts from <a href="https://fonts.google.com/" target="blank" rel="nofollow noopener">Google</a>.</p>
